@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import "./Form.css"
+import React, { useState } from 'react';
+import "./Form.css";
 
-export default function Form({setMemberList}) {
+function Form() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,6 +9,7 @@ export default function Form({setMemberList}) {
     address: ''
   });
   
+  const [memberList, setMemberList] = useState([]);
 
   const handleChange = event => {
     setFormData({
@@ -20,7 +20,7 @@ export default function Form({setMemberList}) {
 
   const handleSubmit = event => {
     event.preventDefault();
-    setMemberList(list => [...list, formData]);
+    setMemberList([...memberList, formData]);
     setFormData({
       name: '',
       email: '',
@@ -80,8 +80,41 @@ export default function Form({setMemberList}) {
         <button type="submit">Add Member</button>
       </form>
       <button>
-        <Link to="/member-list">View Member List</Link>
+        <a href="/member-list">View Member List</a>
       </button>
+      {memberList.length > 0 && (
+        <MemberListPage memberList={memberList} />
+      )}
     </div>
-  )
+  );
 }
+
+function MemberListPage({ memberList }) {
+  return (
+    <div>
+      <h1>Member List</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          {memberList.map(member => (
+            <tr key={member.email}>
+              <td>{member.name}</td>
+              <td>{member.email}</td>
+              <td>{member.phoneNumber}</td>
+              <td>{member.address}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export default Form;
