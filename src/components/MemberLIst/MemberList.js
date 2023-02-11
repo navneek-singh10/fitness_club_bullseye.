@@ -1,3 +1,5 @@
+import React from "react";
+import "./MemberLIst.css"
 
 
 export default function MemberList ({ memberList }){
